@@ -1,2 +1,2 @@
 # boyaOceanografica
-Codigos para sincronizar daos por ftp de local a remoto
+Codigos para sincronizar datos por ftp de local a remoto
