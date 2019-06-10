@@ -1,5 +1,5 @@
 import os
-import sys # At the top of your module.
+import sys 
 from ftplib import FTP
 
 h_local_files = [] # create local dir list
@@ -15,15 +15,17 @@ ftp.login(user='javier', passwd='******')
 
 
 if os.listdir(h_local) == []:
-    print ('LOCAL DIR IS EMPTY')
+    print ('Directorio local vacio')
 else:
-    print ('BUILDING LOCAL DIR FILE LIST...')
+    print ('construyendo lista de archivos locales...\n')
     for file_name in os.listdir(h_local):
         h_local_files.append(file_name) # populate local dir list
 
+# Comprobar la existencia de este dir
 ftp.sendcmd('CWD /home/javier/boyaUdec/data/remoto')
-print ('BUILDING REMOTE DIR FILE LIST...\n')
+print ('Construyendo lista de archivos remotos...\n')
 for rfile in ftp.nlst():
+    # aqui se debe rellenar con condiciones para filtrar archivos (*.roi, *.adc y *.hdr)
     #if rfile.endswith('.jpg'): # i need only .jpg files
     h_remote_files.append(rfile) # populate remote dir list
 
@@ -33,7 +35,7 @@ for h in h_diff:
     with open(os.path.join(h_local,h), 'wb') as ftpfile:
         #s = ftp.retrbinary('RETR ' + h, ftpfile.write) # retrieve file
         s = ftp.retrbinary('RETR ' + h, lambda s: ftpfile.write(s) and sys.stdout.write('.'))
-        print ('PROCESSING', h)
+        print ('Cargando archivos', h)
         if str(s).startswith('226'): # comes from ftp status: '226 Transfer complete.'
             print ('OK\n') # print 'OK' if transfer was successful
         else:
