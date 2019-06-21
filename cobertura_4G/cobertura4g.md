@@ -8,6 +8,10 @@ https://www.promovil.cl/content/11-4g-lte-chile
 
 - La nueva banda de frecuencia B28 desde septiembre de 2015 opera a 700 MHz.
 
-Sin embargo en puerto cisnes he encontrado operadoras en B28.
 
-Revisar las imagenes adjuntas
+
+Operadoras moviles en "Puerto Cisnes"
+WOM: No tiene cobertura 4G 
+MOVISTAR: tiene cobertura 4G de 700 Mhz o B28
+CLARO : tiene cobertura 4G de 2600 MHz o B7
+ENTEL : no tiene cobertura 4G
