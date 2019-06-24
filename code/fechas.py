@@ -1,15 +1,10 @@
 #! usr/bin/python3
 
+import const
 import datetime
 
 #Clase para pedir fechas y horas
 class TimeHandler(object):
-
-    horaZero = 0;
-    horaPrimer = 6;
-    horaSegundo = 12;
-    horaTercer = 18;
-    horaCuarto = 24;
 
     def __init__(self):
         pass
@@ -26,26 +21,26 @@ class TimeHandler(object):
         ''' Representa el bloque horario segun el PDF. hay 4 bloques horarios en un dia '''
         hora = self.getTime()
 
-        if (hora == self.horaZero):
-            return 1
-        if (hora < self.horaPrimer):
-            return 1
+        if (hora == const.horaZero):
+            return const.Bloque.BlockA
+        if (hora < const.horaPrimer):
+            return const.Bloque.BlockA
         
-        if (hora == self.horaPrimer):
-            return 2
-        if (hora < self.horaSegundo):
-            return 2
+        if (hora == const.horaPrimer):
+            return const.Bloque.BlockB
+        if (hora < const.horaSegundo):
+            return const.Bloque.BlockB
         
-        if (hora == self.horaSegundo):
-            return 3
-        if (hora < self.horaTercer):
-            return 3
+        if (hora == const.horaSegundo):
+            return const.Bloque.BlockC
+        if (hora < const.horaTercer):
+            return const.Bloque.BlockC
 
-        if (hora < self.horaCuarto):
-            return 4
+        if (hora < const.horaCuarto):
+            return const.Bloque.BlockD
         
         # Si algo falla
-        return 4
+        return const.Bloque.BlockD
 
     def calculateTask(self):
         ''' Tarea 1 = Medicion. Tarea 2 = Blanco. Tarea 3 = Lavado '''
@@ -55,10 +50,11 @@ class TimeHandler(object):
         dia = self.getDayWeek()
         bloque  = self.getBloque()
 
-        if (bloque == 1 & dia == 0):
-            return 'Blanco'
-        if (bloque == 1):
-            return 'Lavado'
+        #Si es lunes
+        if (bloque == const.Bloque.BlockA & dia == 0):
+            return const.Tareas.BLANCO
+        if (bloque == const.Bloque.BlockA):
+            return const.Tareas.LAVAR
         else:
-            return 'Medicion'
+            return const.Tareas.MEDIR
         
