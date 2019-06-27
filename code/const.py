@@ -1,6 +1,5 @@
 from enum import Enum, unique
 
-
 horaZero = 0
 horaPrimer = 6
 horaSegundo = 12
@@ -9,9 +8,9 @@ horaCuarto = 24
 
 @unique 
 class Tareas(Enum):
-    BLANCO = 1
-    LAVAR = 2
-    MEDIR = 3
+    BLANCO = "blanco"
+    LAVAR = "lavar"
+    MEDIR = "medir"
 
 @unique 
 class Bloque(Enum):

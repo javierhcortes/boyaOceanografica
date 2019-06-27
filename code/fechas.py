@@ -4,16 +4,13 @@ import const
 import datetime
 
 #Clase para pedir fechas y horas
-class TimeHandler(object):
+class TimeHandler():
 
-    def __init__(self):
-        pass
-
-    def getDayWeek():
+    def getDayWeek(self):
         ''' Regresa el dia de la semana, donde 0 es Lunes y 6 es Domingo '''
         return datetime.datetime.today().weekday()
 
-    def getTime():
+    def getTime(self):
         ''' Regresa la hora actual'''
         return datetime.datetime.now().time().hour
 
@@ -51,10 +48,10 @@ class TimeHandler(object):
         bloque  = self.getBloque()
 
         #Si es lunes
-        if (bloque == const.Bloque.BlockA & dia == 0):
+        if (bloque == const.Bloque.BlockA and dia == 0):
             return const.Tareas.BLANCO
         if (bloque == const.Bloque.BlockA):
             return const.Tareas.LAVAR
         else:
             return const.Tareas.MEDIR
-        
+         
