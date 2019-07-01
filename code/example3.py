@@ -4,5 +4,5 @@ config = configparser.ConfigParser()
 config.read('example.ini')
 
 
-for (key, value) in config['prueba.local']:  
-    print(key, value)
+for key in config['prueba.local']:  
+    print(key)
