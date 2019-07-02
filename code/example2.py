@@ -1,5 +1,5 @@
 import os
-import sys 
+import sys
 from ftplib import FTP
 
 h_local_files = [] # create local dir list

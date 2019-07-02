@@ -1,4 +1,4 @@
-#! usr/bin/python3
+#!/usr/bin/python3
 
 import configparser
 
@@ -7,7 +7,7 @@ class iniReader:
     _pass = ''
     local_directory = ''
     remote_directory = ''
-    servidorFTP = 
+    servidorFTP = ''
 
 
     def __init__(self, route):

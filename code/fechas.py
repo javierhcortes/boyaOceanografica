@@ -1,4 +1,4 @@
-#! usr/bin/python3
+#!/usr/bin/python3
 
 import const
 import datetime
@@ -22,12 +22,12 @@ class TimeHandler():
             return const.Bloque.BlockA
         if (hora < const.horaPrimer):
             return const.Bloque.BlockA
-        
+
         if (hora == const.horaPrimer):
             return const.Bloque.BlockB
         if (hora < const.horaSegundo):
             return const.Bloque.BlockB
-        
+
         if (hora == const.horaSegundo):
             return const.Bloque.BlockC
         if (hora < const.horaTercer):
@@ -35,7 +35,7 @@ class TimeHandler():
 
         if (hora < const.horaCuarto):
             return const.Bloque.BlockD
-        
+
         # Si algo falla
         return const.Bloque.BlockD
 
@@ -54,4 +54,3 @@ class TimeHandler():
             return const.Tareas.LAVAR
         else:
             return const.Tareas.MEDIR
-         
