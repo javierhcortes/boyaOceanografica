@@ -1,10 +1,8 @@
-#!/usr/bin/python3
-
 import configparser
 
-config = configparser.ConfigParser()
-config.read('example.ini')
+Config = configparser.ConfigParser()
+Config.read('example.ini')
 
 
-# for key in config['prueba.local']:
-#     print(key)
+for (key,value) in Config['PRINCIPAL']:
+    print(key, value)

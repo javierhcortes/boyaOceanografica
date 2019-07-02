@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+
 
 class TaskHandler():
     def archivoFlag_mod(self, value):
