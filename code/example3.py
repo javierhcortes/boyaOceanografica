@@ -7,8 +7,8 @@ def get_config(path):
     """
     Returns the config object
     """
-    if not os.path.exists(path):
-        create_config(path)
+    #if not os.path.exists(path):
+    #    create_config(path)
 
     config = configparser.ConfigParser()
     config.read(path)
@@ -25,8 +25,14 @@ def get_setting(path, section, setting):
 
 
 path = "settings.ini"
+section = "DEFAULT"
 
-l1 = get_setting(path,'DEFAULT', 'local_directory')
+local_dir = get_setting(path, section, 'local_directory')
+remote_dir = get_setting(path, section, 'remote_directory')
+server = get_setting(path, section, 'servidorFTP')
+user = get_setting(path, section, 'user')
+passWord = get_setting(path, section, 'pass')
+
 
 # Config = configparser.ConfigParser()
 # Config.read('example.ini')
