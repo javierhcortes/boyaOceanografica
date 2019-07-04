@@ -2,45 +2,60 @@
 import configparser
 import os
 
-class iniReader:
+class IniReader:
+    # _config = []
+    # _section = ''
+    # _path = ''
 
-    path = "settings.ini"
-    section = "DEFAULT"
+    def __init__(self, path, section):
+        self.path = path
+        self.section = section
+        self.config = self.get_config(path)
 
-    def __init__(self, path):
-        """
-        Returns the config object
-        """
-        # if not os.path.exists(path):
-        #     create_config(path)
+    def get_config(self, path):
+        'Returns the config object'
+        if not os.path.exists(path):
+            create_config(path)
 
-        config = configparser.ConfigParser()
+        config = configparser.ConfigParser()# configParser.configParser()
         config.read(path)
         return config
 
-    def get_setting(path, section, setting):
-        """
-        Print out a setting
-        """
-        config = get_config(path)
-        value = config.get(section, setting)
-        print(f'*En {section} CAMPO {setting} es {value}')
+    def create_config(self, path):
+        'Create a config file if miss'
+
+        config = configParser.configParser()
+        config.add_section('DEFAULT')
+        config.set('DEFAULT', 'local_directory', '/home/user/boyaUdec/data/remoto')
+        config.set('DEFAULT', 'remote_directory', '/home/user/boyaUdec/data/remoto')
+        config.set('DEFAULT', 'servidorFTP', 'localhost')
+        config.set('DEFAULT', 'user', 'user')
+        config.set('DEFAULT', 'pass', 'secreto')
+
+        with open(path, "wb") as config_file:
+            config.write(config_file)
+
+    def get_setting(self, setting): #path, section, setting):
+        'Print out a setting'
+
+        value = self.config.get(self.section, setting)
+        #print(f"*En {self.section} CAMPO {setting} es {value}")
         return value
 
     def getUser(self):
-        return user = get_setting(path, section, 'user')
+        return self.get_setting('user')
 
     def getPass(self):
-        return get_setting(path, section, 'pass')
+        return self.get_setting('pass')
 
     def getLocalDir(self):
-        return get_setting(path, section, 'local_directory')
+        return self.get_setting('local_directory')
 
     def getRemoteDir(self):
-        return get_setting(path, section, 'remote_directory')
+        return self.get_setting('remote_directory')
 
     def getServer(self):
-        return get_setting(path, section, 'servidorFTP')
+        return self.get_setting('servidorFTP')
 
 
 
