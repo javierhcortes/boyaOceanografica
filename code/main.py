@@ -6,8 +6,16 @@ path = "/home/zeusbase/REPOS/boyaOceanografica/code/settings.ini"
 section = "DEFAULT"
 
 iniReader = IniReader(path, section)
-print (iniReader.getUser())#, iniReader.getPass(), iniReader.getRemoteDir(), iniReader.getLocalDir())
+
+user = iniReader.getUser()
+pasw = iniReader.getPass()
+remoteDir = iniReader.getRemoteDir()
+localDir = iniReader.getLocalDir()
+print ("Datos son: ", user, "-", pasw, remoteDir, localDir)
 
 
 timeHandler = TimeHandler()
 print (timeHandler.calculateTask())
+
+taskHandler = TaskHandler()
+taskHandler.archivoFlag_mod

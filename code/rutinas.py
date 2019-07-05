@@ -1,12 +1,23 @@
-class TaskHandler():
+class TaskHandler:
+
+    def archivoFlag_activar(self):
+        return self.archivoFlag_mod('1')
+    def archivoFlag_desactivar(self):
+        return self.archivoFlag_mod('0')
+
     def archivoFlag_mod(self, value):
         ''' Actualizar el valor de flag con valor 1 o 0'''
         ## abrir el archivo especificado en path
         ## en modo w.
+        file = open("archivoFlag.txt", "w+")
+
         ## escribe el valor
+        file.write(value)
+
         ## cierra el descriptor
+        file.close()
         ## regresa el status
-        return
+        #return
 
     def archivoIFCB_mod(self, tipo):
         ''' Actualizar el archivo IFCB.cfg con 5 disitntos tipos '''
@@ -36,3 +47,11 @@ class TaskHandler():
         # ejecutar rutina por example2.py modificada
         #
         return
+
+
+print("solo depuracion")
+
+taskHand = TaskHandler()
+
+
+taskHand.archivoFlag_desactivar()
