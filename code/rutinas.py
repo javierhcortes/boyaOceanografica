@@ -55,7 +55,8 @@ class TaskHandler:
 
         #CWD change working directory
         ftpCommand = 'CWD ' + remoteDir_ifcb
-        print( ftp.sendcmd(ftpCommand) )
+        status = ftp.sendcmd(ftpCommand)
+        print(status)
 
         #Envia archivo
         with open(ruta_file, 'rb') as fp:
@@ -68,67 +69,51 @@ class TaskHandler:
             else:
                 print ('Error en transferencia: ', s) # if error, print storebin's return
 
+    def recibir_dataICFB(self):
+        #Se conecta
+        ftp = FTP(ini.getServer())
+        ftp.login(user = ini.getUser(), passwd = ini.getPass())
+        remoteDir = ini.getRemoteDir()
 
+        h_local_files = [] # create local dir list
+        h_remote_files = [] # create remote dir list
 
-    #
-    # def transferir_ftp(self):
-    #     ''' Transferir archivos generados de cytoBot -> PC104'''
-    #     # ejecutar rutina por example2.py modificada
-    #     #
+        if os.listdir(h_local) == []:
+            print ('Directorio local vacio')
+        else:
+            print ('construyendo lista de archivos locales...\n')
+            for file_name in os.listdir(h_local):
+                h_local_files.append(file_name) # populate local dir list
 
-    #     h_local_files = [] # create local dir list
-    #     h_remote_files = [] # create remote dir list
+        #! Comprobar la existencia de este dir
+        #CWD change working directory
+        ftpCommand = 'CWD ' + remoteDir
+        status = ftp.sendcmd(ftpCommand)
+        print(status)
 
+        print ('Construyendo lista de archivos remotos...\n')
+        for rfile in ftp.nlst():
+            # aqui se debe rellenar con condiciones para filtrar archivos (*.roi, *.adc y *.hdr)
+            #if rfile.endswith('.jpg'): # i need only .jpg files
+            h_remote_files.append(rfile) # populate remote dir list
 
-    #     if os.listdir(h_local) == []:
-    #         print ('Directorio local vacio')
-    #     else:
-    #         print ('construyendo lista de archivos locales...\n')
-    #         for file_name in os.listdir(h_local):
-    #             h_local_files.append(file_name) # populate local dir list
+        set_remoto = set(h_remote_files)
+        set_local = set(h_local_files)
 
-    #     # Comprobar la existencia de este dir
-    #     ftp.sendcmd('CWD /home/javier/REPOS/boyaOceanografica/data/remoto')
-    #     print ('Construyendo lista de archivos remotos...\n')
-    #     for rfile in ftp.nlst():
-    #         # aqui se debe rellenar con condiciones para filtrar archivos (*.roi, *.adc y *.hdr)
-    #         #if rfile.endswith('.jpg'): # i need only .jpg files
-    #         h_remote_files.append(rfile) # populate remote dir list
+        ## list_dir = list(set_local.symmetric_difference(set_remoto))
+        h_diff = sorted(list(set_remoto - set_local)) # difference between two lists
 
-    #     # set_remoto = set(h_remote_files)
-    #     # set_local = set(h_local_files)
+        # for h in h_diff:
+        #     print(h)
 
-    #     # list_dir = list(set_local - set_remoto)
-    #     # #list_dir = list(set_local.symmetric_difference(set_remoto))
-    #     # h_diff = sorted(list_dir)
-    #     h_diff = sorted(list(set(h_remote_files) - set(h_local_files))) # difference between two lists
-
-    #     for h in h_diff:
-    #         print(h)
-
-    #     for h in h_diff:
-    #         with open(os.path.join(h_local,h), 'wb') as ftpfile:
-    #             s = ftp.retrbinary('RETR ' + h, ftpfile.write) # retrieve file
-    #             print ('Cargando archivos de remoto a local', h)
-    #             if str(s).startswith('226'): # comes from ftp status: '226 Transfer complete.'
-    #                 print ('OK\n') # print 'OK' if transfer was successful
-    #             else:
-    #                 print (s) # if error, print retrbinary's return
-
-    #     # for h in h_diff:
-    #     #     with open(os.path.join(h_local, h), 'r+b') as ftpfile:
-    #     #         #s = ftp.retrbinary('RETR ' + h, ftpfile.write) # retrieve file
-    #     #         s = ftp.retrbinary('RETR ' + h, lambda s: ftpfile.write(s) and sys.stdout.write('.'))
-    #     #         print ('Cargando archivos', h)
-    #     #         if str(s).startswith('226'): # comes from ftp status: '226 Transfer complete.'
-    #     #             print ('OK\n') # print 'OK' if transfer was successful
-    #     #         else:
-    #     #             print (s) # if error, print retrbinary's return
-    # def transferir1(self):
-    #     list_dir = {'texto1', 'texto2'}
-    #     for file in list_dir:
-    #         with open(os.path.join('/home/javier/REPOS/boyaOceanografica/code', file), 'r+b') as file2transfer:
-    #             print(file2transfer.read())
+        for h in h_diff:
+            with open(os.path.join(h_local,h), 'wb') as ftpfile:
+                s = ftp.retrbinary('RETR ' + h, lambda s: ftpfile.write(s) and sys.stdout.write('.')) # retrieve file
+                print ('Cargando archivos de remoto a local: ', h)
+                if str(s).startswith('226'): # comes from ftp status: '226 Transfer complete.'
+                    print ('OK\n') # print 'OK' if transfer was successful
+                else:
+                    print (s) # if error, print retrbinary's return
 
 
 print("solo depuracion")
