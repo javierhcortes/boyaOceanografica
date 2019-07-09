@@ -3,9 +3,6 @@ import configparser
 import os
 
 class IniReader:
-    # _config = []
-    # _section = ''
-    # _path = ''
 
     def __init__(self, path, section):
         self.path = path
@@ -15,27 +12,29 @@ class IniReader:
     def get_config(self, path):
         'Returns the config object'
         if not os.path.exists(path):
-            create_config(path)
+            self.create_config(path)
 
-        config = configparser.ConfigParser()# configParser.configParser()
+        config = configparser.ConfigParser()
         config.read(path)
         return config
 
     def create_config(self, path):
         'Create a config file if miss'
+        print("Creando archivo de configuracion...")
+        config = configparser.ConfigParser()
+        config.add_section('PRINCIPAL')
+        config.set('PRINCIPAL', 'local_directory', '/home/user/boyaUdec/data/remoto')
+        config.set('PRINCIPAL', 'remote_directory', '/home/user/boyaUdec/data/remoto')
 
-        config = configParser.configParser()
-        config.add_section('DEFAULT')
-        config.set('DEFAULT', 'local_directory', '/home/user/boyaUdec/data/remoto')
-        config.set('DEFAULT', 'remote_directory', '/home/user/boyaUdec/data/remoto')
-        config.set('DEFAULT', 'servidorFTP', 'localhost')
-        config.set('DEFAULT', 'user', 'user')
-        config.set('DEFAULT', 'pass', 'secreto')
+        config.set('PRINCIPAL', 'servidorFTP', 'localhost')
+        config.set('PRINCIPAL', 'remote_ifcb_directory', '/home/user/') # directorio en remoto
+        config.set('PRINCIPAL', 'user', 'user')
+        config.set('PRINCIPAL', 'pass', 'secreto')
 
         with open(path, "wb") as config_file:
             config.write(config_file)
 
-    def get_setting(self, setting): #path, section, setting):
+    def get_setting(self, setting):
         'Print out a setting'
 
         value = self.config.get(self.section, setting)
@@ -57,8 +56,8 @@ class IniReader:
     def getServer(self):
         return self.get_setting('servidorFTP')
 
-
-
+    def getRemoteDir_ifcb(self):
+        return self.get_setting('remote_ifcb_directory')
 
 
 

@@ -1,21 +1,31 @@
 from enum import Enum, unique
 
+ifcb_config_name = 'IFCB.cfg'
+ifcb_folder_name = 'configIFCB_files'
+
 horaZero = 0
 horaPrimer = 6
 horaSegundo = 12
 horaTercer = 18
 horaCuarto = 24
 
-@unique 
+@unique
 class Tareas(Enum):
     BLANCO = "blanco"
     LAVAR = "lavar"
     MEDIR = "medir"
 
-@unique 
+@unique
 class Bloque(Enum):
     BlockA = 1
     BlockB = 2
     BlockC = 3
     BlockD = 4
 
+@unique
+class subTareas(Enum):
+    medicion = 10
+    falsa_medicion = 20
+    prelavado = 30
+    lavado = 40
+    blanco = 50

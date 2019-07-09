@@ -2,8 +2,8 @@ from fechas import TimeHandler
 from rutinas import TaskHandler
 from iniReader import IniReader
 
-path = "/home/zeusbase/REPOS/boyaOceanografica/code/settings.ini"
-section = "DEFAULT"
+path = "settings.ini"
+section = "PRINCIPAL"
 
 iniReader = IniReader(path, section)
 
@@ -17,5 +17,6 @@ print ("Datos son: ", user, "-", pasw, remoteDir, localDir)
 timeHandler = TimeHandler()
 print (timeHandler.calculateTask())
 
-taskHandler = TaskHandler()
-taskHandler.archivoFlag_mod
+
+taskHandler = TaskHandler(iniReader)
+taskHandler.archivoFlag_activar()
