@@ -1,8 +1,5 @@
 from enum import Enum, unique
 
-ifcb_config_name = 'IFCB.cfg'
-ifcb_folder_name = 'configIFCB_files'
-
 horaZero = 0
 horaPrimer = 6
 horaSegundo = 12
@@ -29,3 +26,17 @@ class subTareas(Enum):
     prelavado = 30
     lavado = 40
     blanco = 50
+
+ifcb_config_name = 'IFCB.cfg'
+ifcb_folder_name = 'configIFCB_files'
+
+### lista nombres directorios en configIFCB_files
+def dir_ifcb(tipo):
+    switcher = {
+        subTareas.medicion:       'medicion',
+        subTareas.falsa_medicion: 'medicion_falsa',
+        subTareas.blanco:         'blanco',
+        subTareas.prelavado:      'prelavado',
+        subTareas.lavado:         'lavado'
+        }
+    return switcher.get(tipo, "subTarea invalida")

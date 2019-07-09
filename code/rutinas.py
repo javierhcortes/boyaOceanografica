@@ -26,16 +26,7 @@ class TaskHandler:
     def archivoFlag_desactivar(self):
         return self.archivoFlag_mod('0')
 
-    ### deberia ir en const.py
-    def dir_ifcb(self, tipo):
-        switcher = {
-            const.subTareas.medicion:'medicion',
-            const.subTareas.falsa_medicion:'medicion_falsa',
-            const.subTareas.blanco:'blanco',
-            const.subTareas.prelavado:'prelavado',
-            const.subTareas.lavado:'lavado'
-            }
-        return switcher.get(tipo, "subTarea invalida")
+
 
     ### por implementar
     def executeIFCB(self):
@@ -54,7 +45,7 @@ class TaskHandler:
         ''' Actualizar el archivo IFCB.cfg en directorio remoto con 5 disitntos tipos '''
         ''' Med. falsa - confg medicion. blanco. pre lavado- lavado'''
         # toma directorio segun tipo
-        directorio_subTarea = self.dir_ifcb(tipo)
+        directorio_subTarea = const.dir_ifcb(tipo)
         ruta_file = os.path.join(const.ifcb_folder_name, directorio_subTarea, const.ifcb_config_name)
 
         # Se conecta
@@ -68,12 +59,14 @@ class TaskHandler:
 
         #Envia archivo
         with open(ruta_file, 'rb') as fp:
+            #s = ftp.storbinary('STOR ' + const.ifcb_config_name, fp, lambda s: ftpfile.write(s) and sys.stdout.write('.'))
             s = ftp.storbinary('STOR ' + const.ifcb_config_name, fp)
-            print ('Cargando de local a remoto', const.ifcb_config_name)
+            print ('Cargando archivo config IFBC : ', tipo)
+
             if str(s).startswith('226'): # comes from ftp status: '226 Transfer complete.'
-                print ('OK\n') # print 'OK' if transfer was successful
+                print ('Archivo:', tipo, 'cargado exitosamente')
             else:
-                print (s) # if error, print retrbinary's return
+                print ('Error en transferencia: ', s) # if error, print storebin's return
 
 
 
