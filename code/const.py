@@ -27,6 +27,7 @@ class subTareas(Enum):
     lavado = 40
     blanco = 50
 
+flagName = 'archivoFlag.txt'
 ifcb_config_name = 'IFCB.cfg'
 ifcb_folder_name = 'configIFCB_files'
 
