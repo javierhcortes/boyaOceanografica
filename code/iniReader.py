@@ -31,7 +31,7 @@ class IniReader:
         config.set('PRINCIPAL', 'user', 'user')
         config.set('PRINCIPAL', 'pass', 'secreto')
 
-        with open(path, "wb") as config_file:
+        with open(path, "w") as config_file:
             config.write(config_file)
 
     def get_setting(self, setting):
