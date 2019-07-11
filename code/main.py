@@ -17,5 +17,5 @@ if __name__ == "__main__":
     taskHandler = TaskHandler(iniReader)
     taskHandler.archivoFlag_desactivar()
 
-    taskHandler.enviar_configICFB_ftp(const.subTareas.prelavado)
-    taskHandler.recibir_dataICFB()
+    # taskHandler.enviar_configICFB_ftp(const.subTareas.prelavado)
+    # taskHandler.recibir_dataICFB()
