@@ -5,6 +5,7 @@ import sys
 from ftplib import FTP
 from iniReader import IniReader
 
+
 class TaskHandler:
     def __init__(self, iniReader):
         self.ini = iniReader
@@ -16,6 +17,7 @@ class TaskHandler:
 
     def archivoFlag_activar(self):
         return self.archivoFlag_mod('1')
+
     def archivoFlag_desactivar(self):
         return self.archivoFlag_mod('0')
 
@@ -27,7 +29,7 @@ class TaskHandler:
         return
 
     def enviar_configICFB_ftp(self, tipo):
-        ''' Actualizar el archivo IFCB.cfg en directorio remoto con 5 disitntos tipos '''
+        ''' Actualizar el archivo IFCB.cfg en directorio remoto con 5 tipos '''
         ''' Med. falsa - confg medicion. blanco. pre lavado- lavado'''
         # toma directorio segun tipo y construye la ruta relativa a rutinas.py
         directorio_subTarea = const.dir_ifcb(tipo)
@@ -35,19 +37,21 @@ class TaskHandler:
 
         # Se conecta
         ftp = FTP(self.ini.getServer())
-        login = ftp.login(user = self.ini.getUser(), passwd = self.ini.getPass())
+        login = ftp.login(user=self.ini.getUser(), passwd=self.ini.getPass())
+        
+        ftp.set_pasv(False)
 
         # * DEBUG
-        print ('FTP login ==>', login)
+        print('FTP login ==>', login)
+        print(ftp.retrlines('LIST'))
 
         # Get remote Configuration dir
         remoteDir_ifcb = self.ini.getRemoteDir_ifcb()
-
+ 
         #CWD change working directory
-        ftpCommand = 'CWD ' + remoteDir_ifcb
-        status = ftp.sendcmd(ftpCommand)
+        status = ftp.cwd(remoteDir_ifcb)
 
-        # * DEBUG
+        # # * DEBUG
         print('FTP cwd ==>', status)
 
         #Envia archivo
@@ -64,9 +68,11 @@ class TaskHandler:
         #Se conecta
         ftp = FTP(self.ini.getServer())
         login = ftp.login(user = self.ini.getUser(), passwd = self.ini.getPass())
+        ftp.set_pasv(False)
 
         # * DEBUG
         print ('FTP login ==>', login)
+        print(ftp.retrlines('LIST'))
 
         remoteDir = self.ini.getRemoteDir()
         localDir  = self.ini.getLocalDir()
@@ -83,8 +89,7 @@ class TaskHandler:
 
         #! Comprobar la existencia de este dir remoteDir
         #CWD change working directory
-        ftpCommand = 'CWD ' + remoteDir
-        status = ftp.sendcmd(ftpCommand)
+        status = ftp.cwd(remoteDir)
 
         # * DEBUG
         print('FTP cwd ==>', status)
@@ -120,8 +125,7 @@ if __name__ == "__main__":
     taskHand = TaskHandler(ini)
 
     print(taskHand.ini.getUser())
-    #print(taskHand.archivoIFCB_mod(const.subTareas.falsa_medicion))
-
-    taskHand.enviar_configICFB_ftp(const.subTareas.prelavado)
+    
+    taskHand.enviar_configICFB_ftp(const.subTareas.lavado)
     taskHand.recibir_dataICFB()
 
