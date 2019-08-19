@@ -35,6 +35,7 @@ class TaskHandler:
         directorio_subTarea = const.dir_ifcb(tipo)
         ruta_file = os.path.join(const.ifcb_folder_name, directorio_subTarea, const.ifcb_config_name)
 
+        print(self.ini.getUser(), self.ini.getPass())
         # Se conecta
         ftp = FTP(self.ini.getServer())
         login = ftp.login(user=self.ini.getUser(), passwd=self.ini.getPass())
