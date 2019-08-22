@@ -20,7 +20,8 @@ class IniReader:
 
     def create_config(self, path):
         'Create a config file if miss'
-        print("Creando archivo de configuracion...")
+        print("LOG => Archivo de configuracion no encontrado...")
+        print("LOG => Creando archivo de configuracion...")
         config = configparser.ConfigParser()
         config.add_section('PRINCIPAL')
         config.set('PRINCIPAL', 'local_directory', '/home/user/boyaUdec/data/remoto')
