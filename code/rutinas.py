@@ -2,6 +2,7 @@
 import const
 import os
 import sys
+import time
 from ftplib import FTP
 from iniReader import IniReader
 
@@ -9,6 +10,7 @@ from iniReader import IniReader
 class TaskHandler:
 	def __init__(self, iniReader):
 		self.ini = iniReader
+		self.factorTimeout = 0.01 # Debe ser 1 en terreno
 
 	def archivoFlag_mod(self, value):
 		''' Actualizar el valor de flag con valor 1 o 0'''
@@ -105,7 +107,7 @@ class TaskHandler:
 		print ('LOG => Construyendo lista de archivos remotos...\n')
 		for rfile in ftp.nlst():
 			# aqui se debe rellenar con condiciones para filtrar archivos (*.roi, *.adc y *.hdr)
-			if rfile.endswith('.txt'): # i need only .jpg files
+			if rfile.endswith(('.txt', '.roi', '.adc', '.hdr')): # i need only .jpg files
 				h_remote_files.append(rfile) # populate remote dir list
 
 		set_remoto = set(h_remote_files)
@@ -138,24 +140,39 @@ class TaskHandler:
 		print("LOG => Prox. SubRutina :", TaskHandler.rutinaMedicion.__qualname__)
 		self.recibir_dataICFB()
 		self.archivoFlag_desactivar()
+		self.enviar_configICFB_ftp(const.subTareas.falsa_medicion)
+		print("Espera por 5 min")
+		time.sleep(5*60*self.factorTimeout)
 		self.enviar_configICFB_ftp(const.subTareas.medicion)
-		print("Wait 20 min??")
+		print("Espera por 20 min")
+		time.sleep(20*60*self.factorTimeout)
+		self.recibir_dataICFB()
 		self.archivoFlag_activar()
 
 	def rutinaLavado(self):
 		print("LOG => Prox. SubRutina :", TaskHandler.rutinaLavado.__qualname__)
 		self.recibir_dataICFB()
 		self.archivoFlag_desactivar()
+		self.enviar_configICFB_ftp(const.subTareas.prelavado)
+		print("Espera por 5 min")
+		time.sleep(5*60*self.factorTimeout)
 		self.enviar_configICFB_ftp(const.subTareas.lavado)
-		print("Wait LAVADO TIMEOUT??")
+		print("Espera por 20 min")
+		time.sleep(20*60*self.factorTimeout)
+		self.recibir_dataICFB()
 		self.archivoFlag_activar()
 
 	def rutinaBlanco(self):
 		print("LOG => Prox. SubRutina :", TaskHandler.rutinaBlanco.__qualname__)
 		self.recibir_dataICFB()
 		self.archivoFlag_desactivar()
+		self.enviar_configICFB_ftp(const.subTareas.falsa_medicion)
+		print("Espera por 5 min")
+		time.sleep(5*60*self.factorTimeout)
 		self.enviar_configICFB_ftp(const.subTareas.blanco)
-		print("Wait 20min TIMEOUT x Blanco??")
+		print("Espera por 20 min")
+		time.sleep(20*60*self.factorTimeout)
+		self.recibir_dataICFB()
 		self.archivoFlag_activar()
 
 if __name__ == "__main__":
