@@ -39,7 +39,7 @@ class TaskHandler:
 
 		# print("LOG => Datos login:",self.ini.getUser(), self.ini.getPass())
 		# Se conecta
-		ftp = FTP(self.ini.getServer())
+		ftp = FTP(self.ini.getServer(), timeout=60)
 		login = ftp.login(user=self.ini.getUser(), passwd=self.ini.getPass())
 		
 		ftp.set_pasv(False)
@@ -74,7 +74,7 @@ class TaskHandler:
 
 	def recibir_dataICFB(self):
 		#Se conecta
-		ftp = FTP(self.ini.getServer())
+		ftp = FTP(self.ini.getServer(), timeout=60)
 		login = ftp.login(user = self.ini.getUser(), passwd = self.ini.getPass())
 		ftp.set_pasv(False)
 
