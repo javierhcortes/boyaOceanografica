@@ -31,8 +31,8 @@ class TaskHandler:
 		return
 
 	def enviar_configICFB_ftp(self, tipo):
-		''' Actualizar el archivo IFCB.cfg en directorio remoto con 5 tipos '''
-		''' Med. falsa - confg medicion. blanco. pre lavado- lavado'''
+		''' Actualizar el archivo IFCB.cfg en directorio remoto con 2 tipos '''
+		'''  medicion. y lavado'''
 		# toma directorio segun tipo y construye la ruta relativa a rutinas.py
 		directorio_subTarea = const.dir_ifcb(tipo)
 		ruta_file = os.path.join(const.ifcb_folder_name, directorio_subTarea, const.ifcb_config_name)
@@ -116,6 +116,8 @@ class TaskHandler:
 		## list_dir = list(set_local.symmetric_difference(set_remoto))
 		h_diff = sorted(list(set_remoto - set_local)) # difference between two lists
 
+		print('Se han encontrado ', len(h_diff), ' archivos para sincronizar')
+
 		for h in h_diff:
 			with open(os.path.join(localDir, h), 'wb') as ftpfile:
 				s = ftp.retrbinary('RETR ' + h, lambda s: ftpfile.write(s) and sys.stdout.write('.')) # retrieve file
@@ -129,21 +131,17 @@ class TaskHandler:
 
 	def doRutine(self, tipo):
 		print("LOG => Inicio subTareas a realizar:", tipo.name)
-		if (tipo == const.Tareas.BLANCO):
-			return self.rutinaBlanco()
-		elif (tipo == const.Tareas.LAVAR):
+		if (tipo == const.Tareas.LAVAR):
 			return self.rutinaLavado()
 		elif (tipo == const.Tareas.MEDIR):
 			return self.rutinaMedicion()
 
 	def rutinaMedicion(self):
 		print("LOG => Prox. SubRutina :", TaskHandler.rutinaMedicion.__qualname__)
-		self.recibir_dataICFB()
 		self.archivoFlag_desactivar()
-		self.enviar_configICFB_ftp(const.subTareas.falsa_medicion)
-		print("Espera por 5 min")
-		time.sleep(5*60*self.factorTimeout)
 		self.enviar_configICFB_ftp(const.subTareas.medicion)
+		self.recibir_dataICFB()
+
 		print("Espera por 20 min")
 		time.sleep(20*60*self.factorTimeout)
 		self.recibir_dataICFB()
@@ -151,29 +149,27 @@ class TaskHandler:
 
 	def rutinaLavado(self):
 		print("LOG => Prox. SubRutina :", TaskHandler.rutinaLavado.__qualname__)
-		self.recibir_dataICFB()
 		self.archivoFlag_desactivar()
-		self.enviar_configICFB_ftp(const.subTareas.prelavado)
-		print("Espera por 5 min")
-		time.sleep(5*60*self.factorTimeout)
 		self.enviar_configICFB_ftp(const.subTareas.lavado)
+		self.recibir_dataICFB()
+
 		print("Espera por 20 min")
 		time.sleep(20*60*self.factorTimeout)
 		self.recibir_dataICFB()
 		self.archivoFlag_activar()
 
-	def rutinaBlanco(self):
-		print("LOG => Prox. SubRutina :", TaskHandler.rutinaBlanco.__qualname__)
-		self.recibir_dataICFB()
-		self.archivoFlag_desactivar()
-		self.enviar_configICFB_ftp(const.subTareas.falsa_medicion)
-		print("Espera por 5 min")
-		time.sleep(5*60*self.factorTimeout)
-		self.enviar_configICFB_ftp(const.subTareas.blanco)
-		print("Espera por 20 min")
-		time.sleep(20*60*self.factorTimeout)
-		self.recibir_dataICFB()
-		self.archivoFlag_activar()
+	#def rutinaBlanco(self):
+		# print("LOG => Prox. SubRutina :", TaskHandler.rutinaBlanco.__qualname__)
+		# self.recibir_dataICFB()
+		# self.archivoFlag_desactivar()
+		# self.enviar_configICFB_ftp(const.subTareas.falsa_medicion)
+		# print("Espera por 5 min")
+		# time.sleep(5*60*self.factorTimeout)
+		# self.enviar_configICFB_ftp(const.subTareas.blanco)
+		# print("Espera por 20 min")
+		# time.sleep(20*60*self.factorTimeout)
+		# self.recibir_dataICFB()
+		# self.archivoFlag_activar()
 
 if __name__ == "__main__":
 
