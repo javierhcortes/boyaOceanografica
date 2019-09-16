@@ -47,8 +47,8 @@ class TimeHandler():
         bloque  = self.getBloque()
 
         #Si es lunes
-        if (bloque == const.Bloque.BlockA and dia == 0):
-            return const.Tareas.BLANCO
+        # if (bloque == const.Bloque.BlockA and dia == 0):
+        #     return const.Tareas.BLANCO
         if (bloque == const.Bloque.BlockA):
             return const.Tareas.LAVAR
         else:

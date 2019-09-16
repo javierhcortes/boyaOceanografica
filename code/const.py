@@ -8,7 +8,6 @@ horaCuarto = 24
 
 @unique
 class Tareas(Enum):
-    BLANCO = "blanco"
     LAVAR = "lavar"
     MEDIR = "medir"
 
@@ -22,10 +21,7 @@ class Bloque(Enum):
 @unique
 class subTareas(Enum):
     medicion = 10
-    falsa_medicion = 20
-    prelavado = 30
-    lavado = 40
-    blanco = 50
+    lavado = 20
 
 flagName = 'archivoFlag.txt'
 ifcb_config_name = 'IFCB.cfg'
@@ -35,9 +31,6 @@ ifcb_folder_name = 'configIFCB_files'
 def dir_ifcb(tipo):
     switcher = {
         subTareas.medicion:       'medicion',
-        subTareas.falsa_medicion: 'medicion_falsa',
-        subTareas.blanco:         'blanco',
-        subTareas.prelavado:      'prelavado',
         subTareas.lavado:         'lavado'
         }
     return switcher.get(tipo, "subTarea invalida")
